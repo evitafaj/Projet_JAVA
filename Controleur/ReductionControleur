@@ -1,0 +1,16 @@
+package controleur;
+
+import dao.ReductionDAO;
+import model.Reduction;
+
+public class ReductionControleur {
+    private ReductionDAO reductionDAO;
+
+    public ReductionControleur(ReductionDAO reductionDAO) {
+        this.reductionDAO = reductionDAO;
+    }
+
+    public void appliquerReduction(Reduction reduction) {
+        reductionDAO.ajouterReduction(reduction);
+    }
+}
