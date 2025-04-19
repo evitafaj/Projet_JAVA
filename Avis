@@ -1,0 +1,15 @@
+public class Avis {
+    private int id;
+    private int produitId;
+    private String commentaire;
+    private int note;
+
+    public Avis(int id, int produitId, String commentaire, int note) {
+        this.id = id;
+        this.produitId = produitId;
+        this.commentaire = commentaire;
+        this.note = note;
+    }
+
+}
+
