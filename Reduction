@@ -15,5 +15,5 @@ public class Reduction {
         return lots * prixVrac + restants * prixUnitaire;
     }
 
-    // Getters et Setters
+
 }
