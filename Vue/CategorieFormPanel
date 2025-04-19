@@ -1,0 +1,19 @@
+package vue;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class CategorieFormPanel extends JPanel {
+    private JTextField nomField;
+    private JButton enregistrerBtn;
+
+    public CategorieFormPanel() {
+        setLayout(new GridLayout(2, 2));
+        add(new JLabel("Nom de la catégorie :"));
+        nomField = new JTextField();
+        add(nomField);
+
+        enregistrerBtn = new JButton("Ajouter");
+        add(enregistrerBtn);
+    }
+}
