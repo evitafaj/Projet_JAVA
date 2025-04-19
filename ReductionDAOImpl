@@ -1,0 +1,54 @@
+import java.sql.*;
+import java.util.*;
+
+public class ReductionDAOImpl implements ReductionDAO {
+    private Connection conn;
+
+    public ReductionDAOImpl(Connection conn) {
+        this.conn = conn;
+    }
+
+    public void ajouterReduction(Reduction red) {
+        try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO reduction(quantiteVrac, prixVrac) VALUES(?, ?)")) {
+            stmt.setInt(1, red.getQuantiteVrac());
+            stmt.setDouble(2, red.getPrixVrac());
+            stmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    public void supprimerReduction(int id) {
+        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM reduction WHERE id=?")) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    public void modifierReduction(Reduction red) {
+        try (PreparedStatement stmt = conn.prepareStatement("UPDATE reduction SET quantiteVrac=?, prixVrac=? WHERE id=?")) {
+            stmt.setInt(1, red.getQuantiteVrac());
+            stmt.setDouble(2, red.getPrixVrac());
+            stmt.setInt(3, red.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    public Reduction getReductionById(int id) {
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM reduction WHERE id=?")) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) return new Reduction(id, rs.getInt("quantiteVrac"), rs.getDouble("prixVrac"));
+        } catch (SQLException e) { e.printStackTrace(); }
+        return null;
+    }
+
+    public List<Reduction> getAllReductions() {
+        List<Reduction> liste = new ArrayList<>();
+        try (Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM reduction");
+            while (rs.next()) {
+                liste.add(new Reduction(rs.getInt("id"), rs.getInt("quantiteVrac"), rs.getDouble("prixVrac")));
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return liste;
+    }
+}
