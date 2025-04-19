@@ -1,0 +1,27 @@
+package vue;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class ReductionPanel extends JPanel {
+    private JTextField pourcentageField, dateDebutField, dateFinField;
+    private JButton appliquerBtn;
+
+    public ReductionPanel() {
+        setLayout(new GridLayout(4, 2));
+        add(new JLabel("Pourcentage :"));
+        pourcentageField = new JTextField();
+        add(pourcentageField);
+
+        add(new JLabel("Date début (YYYY-MM-DD) :"));
+        dateDebutField = new JTextField();
+        add(dateDebutField);
+
+        add(new JLabel("Date fin (YYYY-MM-DD) :"));
+        dateFinField = new JTextField();
+        add(dateFinField);
+
+        appliquerBtn = new JButton("Appliquer réduction");
+        add(appliquerBtn);
+    }
+}
