@@ -1,0 +1,21 @@
+package controleur;
+
+import dao.AvisDAO;
+import model.Avis;
+import java.util.List;
+
+public class AvisControleur {
+    private AvisDAO avisDAO;
+
+    public AvisControleur(AvisDAO avisDAO) {
+        this.avisDAO = avisDAO;
+    }
+
+    public void ajouterAvis(Avis avis) {
+        avisDAO.ajouterAvis(avis);
+    }
+
+    public List<Avis> getAvisProduit(int produitId) {
+        return avisDAO.getAvisByProduitId(produitId);
+    }
+}
