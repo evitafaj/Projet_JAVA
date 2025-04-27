@@ -4,7 +4,6 @@ package DAO;
 import Modele.Admin;
 import java.sql.*;
 import java.util.ArrayList;
-import DAO.DaoFactory;
 
 /**
  * implémentation MySQL du stockage dans la base de données des méthodes définies dans l'interface
