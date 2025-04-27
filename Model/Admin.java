@@ -1,7 +1,7 @@
 package Modele;
 
 public class Admin {
-    //Les atributs
+    //Les atributs pour admin
     private int idAdmin;
     private String nom;
     private String prenom;
@@ -11,7 +11,7 @@ public class Admin {
     //Constructeur JDBC
     public Admin(int id, String nom, String prenom, String adresse, String email, String motDePasse) {}
 
-    //Constructeur JDBC
+    //Constructeur avec les parametres
     public Admin(int idAdmin, String nom, String prenom, String email, String motDePasse) {
         this.idAdmin = idAdmin;
         this.nom = nom;
@@ -20,7 +20,7 @@ public class Admin {
         this.motDePasse = motDePasse;
     }
 
-    //Getter
+    //Getters
     public int getIdAdmin() {return idAdmin;}
     public String getNom() {return nom;}
     public String getPrenom() {return prenom;}
