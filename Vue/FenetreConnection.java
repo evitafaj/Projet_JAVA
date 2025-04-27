@@ -5,62 +5,76 @@ import Modele.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class FenetreConnection extends JFrame {
     private JTextField emailField;
     private JPasswordField passwordField;
-    private JButton loginButton;
+    private CustomButton loginButton;
     private JLabel resultLabel;
 
     public FenetreConnection(DaoFactory daoFactory) {
         setTitle("Connexion Utilisateur");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 250);
+        setSize(450, 350);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(5, 1));
+        setLayout(new BorderLayout());
+
+        // 🔥 Titre en haut
+        JLabel titre = new JLabel("🔐 Connexion", SwingConstants.CENTER);
+        titre.setFont(new Font("SansSerif", Font.BOLD, 26));
+        titre.setForeground(new Color(70, 70, 70));
+        add(titre, BorderLayout.NORTH);
+
+        // 🔥 Centre : Formulaire
+        JPanel formPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+        formPanel.setBackground(new Color(255, 228, 225)); // 🌸 Fond pastel rose
+        formPanel.setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
         emailField = new JTextField();
         passwordField = new JPasswordField();
-        loginButton = new JButton("Se connecter");
+        loginButton = new CustomButton("🔓 Se connecter");
         resultLabel = new JLabel("", SwingConstants.CENTER);
 
-        add(new JLabel("Email :", SwingConstants.CENTER));
-        add(emailField);
-        add(new JLabel("Mot de passe :", SwingConstants.CENTER));
-        add(passwordField);
-        add(loginButton);
-        add(resultLabel);
+        formPanel.add(new JLabel("Email :", SwingConstants.CENTER));
+        formPanel.add(emailField);
+        formPanel.add(new JLabel("Mot de passe :", SwingConstants.CENTER));
+        formPanel.add(passwordField);
 
-        // Action du bouton
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String email = emailField.getText();
-                String mdp = new String(passwordField.getPassword());
+        add(formPanel, BorderLayout.CENTER);
 
-                ClientDAO clientDAO = daoFactory.getClientDAO();
-                AdminDAO adminDAO = new AdminDAOImpl(daoFactory);
+        // 🔥 Bas : bouton + message
+        JPanel bottomPanel = new JPanel(new GridLayout(2, 1, 10, 10));
+        bottomPanel.setBackground(new Color(255, 228, 225));
 
-                Client client = clientDAO.seConnecter(email, mdp);
-                if (client != null) {
-                    // Ouvre la fenêtre client et ferme la connexion
-                    dispose();
-                    new FenetreClient(client);
-                    return;
-                }
+        bottomPanel.add(loginButton);
+        bottomPanel.add(resultLabel);
 
-                Admin admin = adminDAO.seConnecter(email, mdp);
-                if (admin != null) {
-                    // Ouvre la fenêtre admin et ferme la connexion
-                    dispose();
-                    new FenetreAdmin(admin, daoFactory);
-                    return;
-                }
+        add(bottomPanel, BorderLayout.SOUTH);
 
-                resultLabel.setText("Identifiants incorrects.");
+        // 🎯 Action bouton connexion
+        loginButton.addActionListener(e -> {
+            String email = emailField.getText();
+            String mdp = new String(passwordField.getPassword());
+
+            ClientDAO clientDAO = daoFactory.getClientDAO();
+            AdminDAO adminDAO = new AdminDAOImpl(daoFactory);
+
+            Client client = clientDAO.seConnecter(email, mdp);
+            if (client != null) {
+                dispose();
+                new FenetreClient(client, daoFactory);
+                return;
             }
+
+            Admin admin = adminDAO.seConnecter(email, mdp);
+            if (admin != null) {
+                dispose();
+                new FenetreAdmin(admin, daoFactory);
+                return;
+            }
+
+            resultLabel.setForeground(Color.RED);
+            resultLabel.setText("❌ Identifiants incorrects.");
         });
 
         setVisible(true);

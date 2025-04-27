@@ -13,28 +13,42 @@ public class FenetreGestionClients extends JFrame {
 
     public FenetreGestionClients(DaoFactory daoFactory) {
         setTitle("Gestion des Clients");
-        setSize(500, 400);
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setLayout(new GridLayout(6, 1, 10, 10));
+        setSize(500, 450);
+        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
-        JButton afficherBtn = new JButton("1. Afficher tous les clients");
-        JButton ajouterBtn = new JButton("2. Ajouter un nouveau client");
-        JButton chercherBtn = new JButton("3. Chercher un client par ID");
-        JButton modifierBtn = new JButton("4. Modifier un client");
-        JButton supprimerBtn = new JButton("5. Supprimer un client");
-        JButton retourBtn = new JButton("⬅ Retour");
+        // 🔥 Titre en haut
+        JLabel titre = new JLabel("👥 Gestion des Clients", SwingConstants.CENTER);
+        titre.setFont(new Font("SansSerif", Font.BOLD, 26));
+        titre.setForeground(new Color(70, 70, 70));
+        add(titre, BorderLayout.NORTH);
 
-        add(afficherBtn);
-        add(ajouterBtn);
-        add(chercherBtn);
-        add(modifierBtn);
-        add(supprimerBtn);
-        add(retourBtn);
+        // 🔥 Panneau des boutons au centre
+        JPanel menuPanel = new JPanel(new GridLayout(3, 2, 15, 15));
+        menuPanel.setBackground(new Color(255, 228, 225)); // 🌸 Fond pastel
+        menuPanel.setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
+
+        // 🔥 Boutons CustomButton modernes
+        CustomButton afficherBtn = new CustomButton("📋 Afficher tous les clients");
+        CustomButton ajouterBtn = new CustomButton("➕ Ajouter un nouveau client");
+        CustomButton chercherBtn = new CustomButton("🔍 Chercher un client par ID");
+        CustomButton modifierBtn = new CustomButton("✏️ Modifier un client");
+        CustomButton supprimerBtn = new CustomButton("🗑️ Supprimer un client");
+        CustomButton retourBtn = new CustomButton("⬅️ Retour");
+
+        menuPanel.add(afficherBtn);
+        menuPanel.add(ajouterBtn);
+        menuPanel.add(chercherBtn);
+        menuPanel.add(modifierBtn);
+        menuPanel.add(supprimerBtn);
+        menuPanel.add(retourBtn);
+
+        add(menuPanel, BorderLayout.CENTER);
 
         ClientDAO clientDAO = new ClientDAOImpl(daoFactory);
 
-        // 1. Afficher tous les clients
+        // 🎯 1. Afficher tous les clients
         afficherBtn.addActionListener(e -> {
             ArrayList<Client> clients = clientDAO.getAll();
             StringBuilder sb = new StringBuilder("📋 Liste des clients :\n\n");
@@ -46,7 +60,7 @@ public class FenetreGestionClients extends JFrame {
             JOptionPane.showMessageDialog(this, sb.toString(), "Tous les clients", JOptionPane.INFORMATION_MESSAGE);
         });
 
-        // 2. Ajouter un nouveau client
+        // 🎯 2. Ajouter un nouveau client
         ajouterBtn.addActionListener(e -> {
             JTextField nom = new JTextField();
             JTextField prenom = new JTextField();
@@ -66,10 +80,11 @@ public class FenetreGestionClients extends JFrame {
                 Client nouveau = new Client(0, nom.getText(), prenom.getText(), adresse.getText(), email.getText(), mdp.getText());
                 clientDAO.ajouter(nouveau);
                 JOptionPane.showMessageDialog(this, "✅ Client ajouté !");
+                afficherBtn.doClick(); // 🔥 Actualiser liste
             }
         });
 
-        // 3. Chercher un client par ID
+        // 🎯 3. Chercher un client par ID
         chercherBtn.addActionListener(e -> {
             String idStr = JOptionPane.showInputDialog(this, "ID du client à chercher :");
             if (idStr != null) {
@@ -85,7 +100,7 @@ public class FenetreGestionClients extends JFrame {
             }
         });
 
-        // 4. Modifier un client
+        // 🎯 4. Modifier un client
         modifierBtn.addActionListener(e -> {
             String idStr = JOptionPane.showInputDialog(this, "ID du client à modifier :");
             if (idStr != null) {
@@ -112,6 +127,7 @@ public class FenetreGestionClients extends JFrame {
                         c.setMotDePasse(mdp.getText());
                         clientDAO.modifier(c);
                         JOptionPane.showMessageDialog(this, "✅ Client modifié.");
+                        afficherBtn.doClick(); // 🔥 Actualiser liste
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "❌ Client introuvable.");
@@ -119,7 +135,7 @@ public class FenetreGestionClients extends JFrame {
             }
         });
 
-        // 5. Supprimer un client
+        // 🎯 5. Supprimer un client
         supprimerBtn.addActionListener(e -> {
             String idStr = JOptionPane.showInputDialog(this, "ID du client à supprimer :");
             if (idStr != null) {
@@ -127,16 +143,15 @@ public class FenetreGestionClients extends JFrame {
                 if (c != null) {
                     clientDAO.supprimer(c);
                     JOptionPane.showMessageDialog(this, "🗑️ Client supprimé.");
+                    afficherBtn.doClick(); // 🔥 Actualiser liste
                 } else {
                     JOptionPane.showMessageDialog(this, "❌ Client introuvable.");
                 }
             }
         });
 
-        // 6. Retour
-        retourBtn.addActionListener(e -> {
-            dispose(); // Ferme cette fenêtre
-        });
+        // 🎯 6. Retour
+        retourBtn.addActionListener(e -> dispose());
 
         setVisible(true);
     }

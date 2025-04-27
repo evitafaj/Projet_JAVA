@@ -5,37 +5,49 @@ import DAO.DaoFactory;
 import javax.swing.*;
 import java.awt.*;
 
+// La fenetre qui montre la page Accueil
 public class FenetreAccueil extends JFrame {
     public FenetreAccueil(DaoFactory daoFactory) {
-        setTitle("Bienvenue sur Zanvia ");
+        setTitle("Zanvia Accueil");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(600, 500);
         setLocationRelativeTo(null);
-        setLayout(new GridLayout(4, 1, 10, 10));
+        setLayout(new BorderLayout());
 
-        JLabel titre = new JLabel("Bienvenue !", SwingConstants.CENTER);
-        titre.setFont(new Font("SansSerif", Font.BOLD, 20));
+        // 🔥 Titre en haut
+        JLabel titre = new JLabel("Bienvenue sur la page d'accueil !", SwingConstants.CENTER);
+        titre.setFont(new Font("SansSerif", Font.BOLD, 30));
+        titre.setForeground(new Color(70, 70, 70));
+        add(titre, BorderLayout.NORTH);
 
-        JButton btnConnexion = new JButton("🔐 Se connecter");
-        JButton btnInscriptionClient = new JButton("🧍 Créer un compte client");
-        JButton btnInscriptionAdmin = new JButton("👩‍💼 Créer un compte admin");
+        // 🔥 Centre : les boutons
+        JPanel centerPanel = new JPanel(new GridLayout(3, 1, 20, 20));
+        centerPanel.setBackground(new Color(255, 228, 225)); // 🌸 Rose pastel
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(50, 80, 50, 80));
 
-        add(titre);
-        add(btnConnexion);
-        add(btnInscriptionClient);
-        add(btnInscriptionAdmin);
+        // 🔥 Créer les boutons arrondis
+        CustomButton buttonConnexion = new CustomButton("🔐 Se connecter");
+        CustomButton buttonInscriptionClient = new CustomButton("🛍️ Créer un compte client");
+        CustomButton buttonInscriptionAdmin = new CustomButton("🛠️ Créer un compte admin");
 
-        btnConnexion.addActionListener(e -> {
+        centerPanel.add(buttonConnexion);
+        centerPanel.add(buttonInscriptionClient);
+        centerPanel.add(buttonInscriptionAdmin);
+
+        add(centerPanel, BorderLayout.CENTER);
+
+        // 🎯 Actions
+        buttonConnexion.addActionListener(e -> {
             dispose();
             new FenetreConnection(daoFactory);
         });
 
-        btnInscriptionClient.addActionListener(e -> {
+        buttonInscriptionClient.addActionListener(e -> {
             dispose();
             new FenetreInscription(daoFactory);
         });
 
-        btnInscriptionAdmin.addActionListener(e -> {
+        buttonInscriptionAdmin.addActionListener(e -> {
             dispose();
             new FenetreInscriptionAdmin(daoFactory);
         });
