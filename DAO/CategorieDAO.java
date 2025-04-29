@@ -1,0 +1,12 @@
+package DAO;
+
+import Modele.Categorie;
+import java.util.List;
+
+public interface CategorieDAO {
+    void ajouterCategorie(Categorie categorie);
+    void supprimerCategorie(int id);
+    void modifierCategorie(Categorie categorie);
+    Categorie getCategorieById(int id);
+    List<Categorie> getAllCategories();
+}
