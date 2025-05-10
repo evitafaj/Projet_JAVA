@@ -1,0 +1,19 @@
+public class Reduction {
+    private int id;
+    private int quantiteVrac;
+    private double prixVrac;
+
+    public Reduction(int id, int quantiteVrac, double prixVrac) {
+        this.id = id;
+        this.quantiteVrac = quantiteVrac;
+        this.prixVrac = prixVrac;
+    }
+
+    public double calculerPrixAvecReduction(int quantite, double prixUnitaire) {
+        int lots = quantite / quantiteVrac;
+        int restants = quantite % quantiteVrac;
+        return lots * prixVrac + restants * prixUnitaire;
+    }
+
+
+}

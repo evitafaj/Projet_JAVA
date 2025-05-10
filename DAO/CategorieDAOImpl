@@ -1,0 +1,52 @@
+import java.sql.*;
+import java.util.*;
+
+public class CategorieDAOImpl implements CategorieDAO {
+    private Connection conn;
+
+    public CategorieDAOImpl(Connection conn) {
+        this.conn = conn;
+    }
+
+    public void ajouterCategorie(Categorie cat) {
+        try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO categorie(nom) VALUES(?)")) {
+            stmt.setString(1, cat.getNom());
+            stmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    public void supprimerCategorie(int id) {
+        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM categorie WHERE id=?")) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    public void modifierCategorie(Categorie cat) {
+        try (PreparedStatement stmt = conn.prepareStatement("UPDATE categorie SET nom=? WHERE id=?")) {
+            stmt.setString(1, cat.getNom());
+            stmt.setInt(2, cat.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) { e.printStackTrace(); }
+    }
+
+    public Categorie getCategorieById(int id) {
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM categorie WHERE id=?")) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) return new Categorie(rs.getInt("id"), rs.getString("nom"));
+        } catch (SQLException e) { e.printStackTrace(); }
+        return null;
+    }
+
+    public List<Categorie> getAllCategories() {
+        List<Categorie> liste = new ArrayList<>();
+        try (Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery("SELECT * FROM categorie");
+            while (rs.next()) {
+                liste.add(new Categorie(rs.getInt("id"), rs.getString("nom")));
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return liste;
+    }
+}

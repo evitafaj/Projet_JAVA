@@ -1,0 +1,9 @@
+import java.util.List;
+
+public interface ReductionDAO {
+    void ajouterReduction(Reduction reduction);
+    void supprimerReduction(int id);
+    void modifierReduction(Reduction reduction);
+    Reduction getReductionById(int id);
+    List<Reduction> getAllReductions();
+}

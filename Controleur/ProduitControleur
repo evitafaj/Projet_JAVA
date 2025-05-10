@@ -1,0 +1,25 @@
+package controleur;
+
+import dao.ProduitDAO;
+import model.Produit;
+import java.util.List;
+
+public class ProduitControleur {
+    private ProduitDAO produitDAO;
+
+    public ProduitControleur(ProduitDAO produitDAO) {
+        this.produitDAO = produitDAO;
+    }
+
+    public void ajouterProduit(Produit produit) {
+        produitDAO.ajouterProduit(produit);
+    }
+
+    public void supprimerProduit(int id) {
+        produitDAO.supprimerProduit(id);
+    }
+
+    public List<Produit> getTousProduits() {
+        return produitDAO.getAllProduits();
+    }
+}

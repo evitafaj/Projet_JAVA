@@ -1,0 +1,28 @@
+package vue;
+
+import model.Produit;
+import model.Categorie;
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
+public class ProduitFormPanel extends JPanel {
+    private JTextField nomField, prixField, stockField;
+    private JComboBox<Categorie> categorieBox;
+    private JButton enregistrerBtn;
+
+    public ProduitFormPanel(List<Categorie> categories) {
+        setLayout(new GridLayout(5, 2));
+
+        add(new JLabel("Nom :")); add(nomField = new JTextField());
+        add(new JLabel("Prix unitaire :")); add(prixField = new JTextField());
+        add(new JLabel("Quantité en stock :")); add(stockField = new JTextField());
+        add(new JLabel("Catégorie :"));
+        categorieBox = new JComboBox<>(categories.toArray(new Categorie[0]));
+        add(categorieBox);
+
+        enregistrerBtn = new JButton("Enregistrer");
+        add(enregistrerBtn);
+        add(new JLabel()); // espace vide
+    }
+}
